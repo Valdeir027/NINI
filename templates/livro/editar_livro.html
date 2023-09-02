@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Editar Livro</title>
+</head>
+<body>
+    <h1>Editar Livro: {{ livro.titulo }}</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ capitulo_form.as_p }}
+
+        <input type="submit" value="Adicionar Capítulo">
+    </form>
+
+    <h2>Capítulos:</h2>
+    <ul>
+        {% for capitulo in capitulos %}
+            <li>{{ capitulo.titulo }}</li>
+            <form method="post">
+                {% csrf_token %}
+                {{ capitulo_form.as_p }}
+                <input type="submit" value="Salvar Capítulo">
+            </form>
+            <h3>Páginas:</h3>
+            <ul>
+                {% for pagina in capitulo.pagina_set.all %}
+                    <!-- Exibir o número da página como indicativo visual -->
+                    <li>Página {{ forloop.counter }} - {{ pagina.conteudo }}</li>
+                {% endfor %}
+            </ul>
+
+            <!-- Formulário para adicionar página -->
+            <form method="post">
+                {% csrf_token %}
+                {{ pagina_form.as_p }}
+                <input type="submit" value="Adicionar Página">
+            </form>
+        {% endfor %}
+    </ul>
+</body>
+</html>

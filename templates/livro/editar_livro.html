@@ -26,6 +26,7 @@
                 {% for pagina in capitulo.pagina_set.all %}
                     <!-- Exibir o número da página como indicativo visual -->
                     <li>Página {{ forloop.counter }} - {{ pagina.conteudo }}</li>
+                    <a href="editar_livro/{{livro.id}}/">editar_livro</a>
                 {% endfor %}
             </ul>
 

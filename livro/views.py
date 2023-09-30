@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from .models import Livro, Capitulo, Pagina
 from .forms import LivroForm, CapituloForm, PaginaForm
+from django.views import generic
+
 
 def criar_livro(request):
     if request.method == 'POST':
@@ -50,3 +52,21 @@ def editar_livro(request, livro_id):
         pagina_form = PaginaForm()
 
     return render(request, 'livro/editar_livro.html', {'livro': livro, 'capitulos': capitulos, 'capitulo_form': capitulo_form, 'pagina_form': pagina_form})
+
+
+class LivroListView(generic.ListView):
+    model = Livro
+    context_object_name = 'list_livros'
+    queryset = Livro.objects.all()
+    template_name = 'livro/listar_livros.html'
+
+
+
+    def get_queryset(self):
+        return Livro.objects.all()
+    
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get the context
+        context = super(LivroListView, self).get_context_data(**kwargs)
+        # Create any data and add it to the context
+        return context

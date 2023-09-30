@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nini</title>
+</head>
+<body>
+    <h1>Nini app</h1>
+    <h2>Lista de Ultimos livros publicados</h2>
+    {%if list_livros%}
+        <ul>
+            {%for livro in list_livros%}
+                <li>
+                    <a href="{{livro.get_absolute_url}}">{{livro.titulo}}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhum livro foi publicado.</p>
+    {% endif %}
+    <a href="criar_livro/">publicar livro</a> <br>
+    <br>
+    <a href="admin/">tela de administração</a>    
+</body>
+</html>

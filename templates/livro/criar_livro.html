@@ -1,15 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Livro</title>
 </head>
 <body>
-    <h1>Criar um Novo Livro</h1>
+    <h1>Criar Livro</h1>
     <form method="post">
         {% csrf_token %}
         {{ livro_form.as_p }}
-
-        <input type="submit" value="Salvar Livro">
+        <h2>Capítulos</h2>
+        {{ capitulo_formset.management_form }}
+        <div id="capitulos-formset">
+            {% for form in capitulo_formset %}
+                {{ form.as_table }}
+            {% endfor %}
+        </div>
+        <button type="button" id="add_capitulo">Adicionar Capítulo</button>
+        <script type="text/template" id="empty_capitulo">
+            {{ capitulo_formset.empty_form.as_table }}
+        </script>
+        
+        <h2>Páginas</h2>
+        {{ pagina_formset.management_form }}
+        <div id="paginas-formset">
+            {% for form in pagina_formset %}
+                {{ form.as_table }}
+            {% endfor %}
+        </div>
+        <button type="button" id="add_pagina">Adicionar Página</button>
+        <script type="text/template" id="empty_pagina">
+            {{ pagina_formset.empty_form.as_table }}
+        </script>
+        
+        <button type="submit">Criar Livro</button>
     </form>
+    
+    <script>
+        // Script para adicionar capítulos e páginas dinamicamente
+        document.getElementById('add_capitulo').addEventListener('click', function () {
+            addForm('capitulo');
+        });
+
+        document.getElementById('add_pagina').addEventListener('click', function () {
+            addForm('pagina');
+        });
+
+        function addForm(prefix) {
+            const formCount = document.querySelectorAll(`#id_${prefix}-TOTAL_FORMS`).length;
+            const template = document.querySelector(`#empty_${prefix}`).innerHTML;
+            const newForm = template.replace(/__prefix__/g, formCount);
+            const formContainer = document.getElementById(`${prefix}s-formset`);
+            formContainer.insertAdjacentHTML('beforeend', newForm);
+        }
+    </script>
 </body>
 </html>
